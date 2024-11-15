@@ -1,5 +1,5 @@
 {
-    "name": "mega/mailer",
+    "name": "mega-tj/mailer",
     "description": "A Laravel 11 package for sending emails with flexible email templates (Blade & Markdown) using PHPMailer.",
     "version": "1.0.0",
     "require": {
