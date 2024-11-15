@@ -1,6 +1,7 @@
 {
     "name": "megafon/mailer",
     "description": "A Laravel 11 package for sending emails with flexible email templates (Blade & Markdown) using PHPMailer.",
+    "version": "1.0.0",
     "require": {
         "phpmailer/phpmailer": "6.9"
     },
