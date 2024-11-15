@@ -1,0 +1,29 @@
+{
+    "name": "aliakbarboistov/megafon-mailer",
+    "description": "A Laravel 11 package for sending emails with flexible email templates (Blade & Markdown) using PHPMailer.",
+    "require": {
+        "phpmailer/phpmailer": "6.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Megafon\\App\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Aliakbar Boistov",
+            "email": "wisedev2699@gmail.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/aliakbarboistov/megafon-mailer.git"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
