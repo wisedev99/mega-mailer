@@ -1,6 +1,6 @@
 <?php
 
-namespace Megafon\App;
+namespace Mega\App;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;

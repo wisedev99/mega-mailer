@@ -4,4 +4,4 @@
 require_once __DIR__ . '/../../../../vendor/autoload.php';
 
 // Ensure the class exists
-$class = new \Megafon\App\Mailer();
+$class = new \Mega\App\Mailer();

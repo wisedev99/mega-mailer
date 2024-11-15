@@ -1,5 +1,5 @@
 {
-    "name": "megafon/mailer",
+    "name": "mega/mailer",
     "description": "A Laravel 11 package for sending emails with flexible email templates (Blade & Markdown) using PHPMailer.",
     "version": "1.0.0",
     "require": {
@@ -8,7 +8,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Megafon\\App\\": "src/"
+            "Mega\\App\\": "src/"
         },
         "files": [
             "src/helpers.php"
@@ -23,7 +23,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/wisedev99/megafon-mailer.git"
+            "url": "https://github.com/wisedev99/mega-mailer.git"
         }
     ],
     "minimum-stability": "dev",
