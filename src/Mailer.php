@@ -15,6 +15,7 @@ class Mailer
     private $isMarkdown = false;
     private $viewName = '';
     private $data = [];
+    private $attachments = [];  // Add an array to hold attachments
 
     public function __construct()
     {
@@ -69,6 +70,13 @@ class Mailer
         return $this;
     }
 
+    // Method to add an attachment
+    public function attach($filePath)
+    {
+        $this->attachments[] = $filePath;
+        return $this;
+    }
+
     // Send the email
     public function send()
     {
@@ -94,6 +102,13 @@ class Mailer
             } else {
                 $this->mail->isHTML(false);
                 $this->mail->Body = $this->body; // Plain text message
+            }
+
+            // Attach files if any
+            foreach ($this->attachments as $attachment) {
+                if (file_exists($attachment)) {
+                    $this->mail->addAttachment($attachment); // Add attachments
+                }
             }
 
             // Send the email
