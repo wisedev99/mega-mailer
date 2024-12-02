@@ -75,7 +75,7 @@ class Mailer
         if ($mail_from_address) {
             $this->mail->setFrom($mail_from_address, $mail_from_name);
         } else {
-            $this->mail->setFrom(env('MAIL_FROM_ADDRESS', ''), env('MAIL_FROM_ADDRESS', 'APP_NAME'));
+            $this->mail->setFrom(env('MAIL_FROM_ADDRESS', ''), env('MAIL_FROM_NAME', 'APP_NAME'));
         }
     }
 
@@ -86,7 +86,7 @@ class Mailer
 
             if ($mailable) {
                 $this->mail->Subject = $mailable->envelope()->subject;
-                $this->from($mailable->envelope()->from->address, $mailable->envelope()->from->name);
+                $this->from($mailable->envelope()->from->address ?? null, $mailable->envelope()->from->name ?? null);
                 $this->viewName = $mailable->content()->view;
                 $this->data = $mailable->content()->with; // You can passing data if your Mailable class accepts some
                 $this->attachments = $mailable->attachments();
