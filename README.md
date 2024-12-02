@@ -14,9 +14,7 @@ Mega Mailer is a simple and elegant mailer package for PHP, designed to facilita
 
 # Table of Contents
 - [Installation](#installation)
-- [Usage](#usage)
-- [Example](#example)
-- [Error Handling](#error-handling)
+- [Creating a Mailable](#creating-mailable)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -38,44 +36,53 @@ use Mega\App\Mailer;
 $mailer = new Mailer();
 
 // Set the email details
-$mailer->to('recipient@example.com')
-       ->subject('Test Email')
-       ->message('This is a test email.')
-       ->attach('/path/to/attachment.pdf') // (optional) Attach a file
-       ->send();
+$recipient = ['test.userov@example.tj'];  // Email address also can be strig
+
+$this->mailer->to($recipient)->send(new Test());
+
 ```
-# Example
-with Markdown, Plain Text, and Attachment
-Here’s a detailed example demonstrating how to send an email to a specific recipient using both a Markdown template and a plain text fallback, accompanied by an attachment:
+# Creating a Mailable
+To create your own Mailable, utilize the Mailable base class. Here's how the Test class is structured:
 
-```php
-$mailer = new Mailer();
-$mailer->to('recipient@example.com', 'Jone Jonse')
-    ->subject('Test Email')
-    ->markdown('mail.for_employee', [
-        'name' => 'Jone',
-        'message' => 'This is a test message with Blade!'
-    ])
-    ->message('This is a plain text message') // Fallback plain text -- repalce
-    ->attach('/path/to/attachment.pdf') // Attach an attachment
-    ->send();
+```bash
+namespace App\Mail;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Address;
+
+class Test extends Mailable
+{
+    use Queueable, SerializesModels;
+
+    public function envelope(): Envelope
+    {
+        return new Envelope(
+            subject: 'Checklist Message',
+            from: new Address('jeffrey@example.com', 'Jeffrey Way'),
+        );
+    }
+
+    public function content(): Content
+    {
+        return new Content(
+            view: 'emails.send_report',
+            with: ['data' => [], 'content' => []],
+        );
+    }
+
+    public function attachments(): array
+    {
+        return []; // Return an array of attachments if necessary
+    }
+}
 ```
-
-
-
-# Error Handling
-
-To handle errors during the sending process, you can check the result as follows:
 
 # Contributing
-Contributions are welcome! If you find an issue or have a feature request, please open an issue on the GitHub repository. Pull requests are also welcome — feel free to contribute code improvements or additional features.
+If you would like to contribute to this package, please open an issue or submit a pull request.
 
 # License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-Summary of Sections Included:
-Basic Setup: A straightforward example showing how to use the mailer with basic parameters.
-Example with Markdown, Plain Text, and Attachment: Detailed example that includes everything you’re using (Markdown, fallback text, and file attachment).
-Markdown Emails: A concise example showing the use of Blade views for Markdown emails.
-Configuration and Error Handling: Guidance on configuring SMTP settings and managing errors.
-This comprehensive README is a great resource for users who want to quickly understand how to use your Mega Mailer package for PHP.
+This package is open-sourced software licensed under the MIT license.

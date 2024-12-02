@@ -29,7 +29,7 @@ class Mailer
         $this->mail->Port = 25;             // SMTP port
         $this->mail->SMTPSecure = false;    // No encryption
         $this->mail->SMTPAutoTLS = false;
-        $this->mail->CharSet = 'UTF-8';       // Set character set to UTF-8
+        $this->mail->CharSet = 'UTF-8';
         $this->mail->SMTPOptions = [
             'ssl' => [
                 'verify_peer' => false,
@@ -44,7 +44,8 @@ class Mailer
     {
         if (is_array($email)) {
             foreach ($email as $addr) {
-                $this->to($addr);
+                // $this->to($addr);
+                $this->mail->addAddress($addr); // Add recipient
             }
         } else {
             $this->toEmail = $email;
@@ -61,15 +62,6 @@ class Mailer
         return $this;
     }
 
-    // Enable sending with a Blade view (Markdown)
-    public function markdown($viewName, $data = [])
-    {
-        $this->isMarkdown = true;
-        $this->viewName = $viewName;
-        $this->data = $data;
-        return $this;
-    }
-
     // Set the plain message body
     public function message($body)
     {
@@ -78,23 +70,28 @@ class Mailer
         return $this;
     }
 
-    // Method to add an attachment
-    public function attach($filePath)
+    public function from($mail_from_address = null, $mail_from_name = null)
     {
-        $this->attachments[] = $filePath;
-        return $this;
+        if ($mail_from_address) {
+            $this->mail->setFrom($mail_from_address, $mail_from_name);
+        } else {
+            $this->mail->setFrom(env('MAIL_FROM_ADDRESS', ''), env('MAIL_FROM_ADDRESS', 'APP_NAME'));
+        }
     }
 
     // Send the email
-    public function send()
+    public function send($mailable = null)
     {
         try {
-            // Recipients
-            $this->mail->setFrom(env('MAIL_FROM_ADDRESS', ''), env('MAIL_FROM_ADDRESS', 'APP_NAME'));
-            $this->mail->addAddress($this->toEmail, $this->toName); // Add recipient
 
-            // Subject
-            $this->mail->Subject = $this->subject;
+            if ($mailable) {
+                $this->mail->Subject = $mailable->envelope()->subject;
+                $this->from($mailable->envelope()->from->address, $mailable->envelope()->from->name);
+                $this->viewName = $mailable->content()->view;
+                $this->data = $mailable->content()->with; // You can passing data if your Mailable class accepts some
+                $this->attachments = $mailable->attachments();
+                $this->isMarkdown = true;
+            }
 
             // Decide whether to use Blade or plain text
             if ($this->isMarkdown) {
