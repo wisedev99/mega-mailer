@@ -41,8 +41,15 @@ class Mailer
     // Set the email recipient
     public function to($email, $name = null)
     {
-        $this->toEmail = $email;
-        $this->toName = $name;
+        if (is_array($email)) {
+            foreach ($email as $addr) {
+                $this->mail->addAddress($addr, $name); // Add each address to the mailer
+            }
+        } else {
+            $this->toEmail = $email;
+            $this->toName = $name;
+            $this->mail->addAddress($this->toEmail, $this->toName); // Add recipient
+        }
         return $this;
     }
 
