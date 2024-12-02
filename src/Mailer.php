@@ -29,6 +29,7 @@ class Mailer
         $this->mail->Port = 25;             // SMTP port
         $this->mail->SMTPSecure = false;    // No encryption
         $this->mail->SMTPAutoTLS = false;
+        $this->mail->CharSet = 'UTF-8';       // Set character set to UTF-8
         $this->mail->SMTPOptions = [
             'ssl' => [
                 'verify_peer' => false,
@@ -43,7 +44,7 @@ class Mailer
     {
         if (is_array($email)) {
             foreach ($email as $addr) {
-                $this->mail->addAddress($addr, $name); // Add each address to the mailer
+                $this->to($addr);
             }
         } else {
             $this->toEmail = $email;
