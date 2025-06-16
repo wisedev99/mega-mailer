@@ -29,6 +29,51 @@ You can install Mega Mailer via Composer. Run the following command in your proj
 composer require mega-tj/mailer:dev-main --dev
 ```
 
+## Laravel Integration
+
+### 1. Register the Service Provider
+
+If your package is installed via Composer, Laravel will auto-discover your service provider if you add it to your `composer.json`:
+
+```json
+"extra": {
+    "laravel": {
+        "providers": [
+            "Mega\\App\\Providers\\MailerServiceProvider"
+        ]
+    }
+}
+```
+
+If you are testing manually or auto-discovery is not enabled, register the provider in your `config/app.php`:
+
+```php
+'providers' => [
+    // ...
+    Mega\App\Providers\MailerServiceProvider::class,
+],
+```
+
+### 2. Publish the Configuration File
+
+After installing the package, publish the configuration file with:
+
+```bash
+php artisan vendor:publish --tag=config
+```
+
+This will copy the config file from:
+
+```
+src/config/mailer.php  →  config/mailer.php
+```
+
+You can now access configuration values using:
+
+```php
+config('mailer.host'); // instead of env('MAIL_HOST')
+```
+
 # Creating a Mailable
 To create your own Mailable, inherit from the Mailable base class provided by the package. Below is an example of how to structure a Test class:
 
@@ -123,6 +168,8 @@ Route::get('/test', function () {
     return 'Email sent!';
 });
 ```
+
+
 # Contributing
 If you would like to contribute to this package, please open an issue or submit a pull request on the GitHub repository.
 

@@ -22,21 +22,15 @@ class Mailer
         // Initialize PHPMailer
         $this->mail = new PHPMailer(true);
         $this->mail->isSMTP();
-        $this->mail->Host = env('MAIL_HOST', '');  // Example SMTP host
-        $this->mail->SMTPAuth = false;      // Disable SMTP authentication
-        $this->mail->Username = '';         // SMTP username
-        $this->mail->Password = '';         // SMTP password
-        $this->mail->Port = 25;             // SMTP port
-        $this->mail->SMTPSecure = false;    // No encryption
-        $this->mail->SMTPAutoTLS = false;
-        $this->mail->CharSet = 'UTF-8';
-        $this->mail->SMTPOptions = [
-            'ssl' => [
-                'verify_peer' => false,
-                'verify_peer_name' => false,
-                'allow_self_signed' => true
-            ]
-        ];
+        $this->mail->Host = config('mailer.host');
+        $this->mail->SMTPAuth = config('mailer.smtp_auth');
+        $this->mail->Username = config('mailer.username');
+        $this->mail->Password = config('mailer.password');
+        $this->mail->Port = config('mailer.port');
+        $this->mail->SMTPSecure = config('mailer.encryption') ? 'tls' : false;
+        $this->mail->SMTPAutoTLS = config('mailer.auto_tls');
+        $this->mail->CharSet = config('mailer.charset');
+        $this->mail->SMTPOptions = config('mailer.smtp_options');
     }
 
     // Set the email recipient
@@ -75,7 +69,10 @@ class Mailer
         if ($mail_from_address) {
             $this->mail->setFrom($mail_from_address, $mail_from_name);
         } else {
-            $this->mail->setFrom(env('MAIL_FROM_ADDRESS', ''), env('MAIL_FROM_NAME', 'APP_NAME'));
+            $this->mail->setFrom(
+                config('mailer.from_address'),
+                config('mailer.from_name')
+            );
         }
     }
 
@@ -120,6 +117,10 @@ class Mailer
             $this->mail->send();
             return 'Message has been sent';
         } catch (Exception $e) {
+            \Log::error('MegaMailer: Failed to send email', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
             return "Message could not be sent. Mailer Error: {$this->mail->ErrorInfo}";
         }
     }
