@@ -62,6 +62,12 @@ After installing the package, publish the configuration file with:
 php artisan vendor:publish --tag=config
 ```
 
+Or, you can publish the configuration file directly from the service provider:
+
+```bash
+php artisan vendor:publish --provider="Mega\App\Providers\MailerServiceProvider"
+```
+
 This will copy the config file from:
 
 ```
@@ -79,7 +85,7 @@ To create your own Mailable, inherit from the Mailable base class provided by th
 
 # Example Test Mailable
 
-```bash
+```php
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
@@ -140,7 +146,7 @@ class Test extends Mailable
 # Usage
 Basic Setup
 Here’s a simple example to get started with Mega Mailer:
-```bash
+```php
 require 'vendor/autoload.php'; // Load the Composer autoload file
 
 use Mega\App\Mailer;
@@ -155,7 +161,7 @@ $mailer->to($recipient)->send(new Test());
 ```
 # Example of Using Mega Mailer in Laravel
 To use Mega Mailer in a Laravel route:
-```bash
+```php
 use Mega\App\Mailer;
 use App\Mail\Test;
 
@@ -168,7 +174,6 @@ Route::get('/test', function () {
     return 'Email sent!';
 });
 ```
-
 
 # Contributing
 If you would like to contribute to this package, please open an issue or submit a pull request on the GitHub repository.
