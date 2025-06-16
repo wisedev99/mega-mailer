@@ -1,32 +1,38 @@
 {
     "name": "mega-tj/mailer",
     "description": "A Laravel 11 package for sending emails with flexible email templates (Blade & Markdown) using PHPMailer.",
-    "version": "1.0.0",
     "require": {
-        "php": "^8.3",
-        "phpmailer/phpmailer": "6.9.2"
+      "php": "^8.3",
+      "phpmailer/phpmailer": "6.9.2"
     },
     "autoload": {
-        "psr-4": {
-            "Mega\\App\\": "src/"
-        },
-        "files": [
-            "src/helpers.php"
-        ]
+      "psr-4": {
+        "Mega\\App\\": "src/"
+      },
+      "files": [
+        "src/helpers.php"
+      ]
     },
     "authors": [
-        {
-            "name": "Aliakbar Boistov",
-            "email": "wisedev2699@gmail.com"
-        }
+      {
+        "name": "Aliakbar Boistov",
+        "email": "wisedev2699@gmail.com"
+      }
     ],
     "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/wisedev99/mega-mailer.git"
-        }
+      {
+        "type": "vcs",
+        "url": "https://github.com/wisedev99/mega-mailer.git"
+      }
     ],
+    "extra": {
+      "laravel": {
+        "providers": [
+          "Mega\\App\\Providers\\MailerServiceProvider"
+        ]
+      }
+    },
     "minimum-stability": "dev",
     "prefer-stable": true,
-     "license": "MIT"
-}
+    "license": "MIT"
+  }
